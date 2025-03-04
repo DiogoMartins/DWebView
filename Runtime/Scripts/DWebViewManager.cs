@@ -11,7 +11,7 @@ public class DWebViewManager
         }
 
 #if UNITY_EDITOR
-            Application.OpenURL("https://www.youtube.com/");
+        Application.OpenURL("https://www.youtube.com/");
 #elif UNITY_ANDROID
             CallAndroidJavaMethod("openWebView", url,
                 webViewOptions.Size.x,
@@ -23,13 +23,19 @@ public class DWebViewManager
                 webViewOptions.CloseButtonSize.x,
                 webViewOptions.CloseButtonSize.y
                 );
+#elif UNITY_IOS
+        DWebViewiOSBridge.Open(url, webViewOptions.Position.x, webViewOptions.Position.y, webViewOptions.Size.x, webViewOptions.Size.y);
 #endif
     }
 
     public static void CloseWebView()
     {
-#if !UNITY_EDITOR && UNITY_ANDROID
+#if UNITY_EDITOR
+        Debug.Log("Can't close a webview on editor.");
+#elif UNITY_ANDROID              
         CallAndroidJavaMethod("closeWebView");
+#elif UNITY_IOS
+        DWebViewiOSBridge.Close();
 #endif
     }
 
@@ -51,11 +57,16 @@ public class DWebViewManager
     
     public static void SetCloseButtonVisual(byte[] imageBytes)
     {
-#if !UNITY_EDITOR && UNITY_ANDROID
+#if UNITY_EDITOR
+        Debug.Log("Can't set close button on editor.");
+#elif UNITY_ANDROID
         CallAndroidJavaMethod("setCloseButtonVisual", imageBytes);
+#elif UNITY_IOS
+        DWebViewiOSBridge.SetCloseButtonVisual(imageBytes, 50, 50);
 #endif
     }
 
+#if UNITY_ANDROID
     private static void CallAndroidJavaMethod(string methodName, params object[] parameters)
     {
         using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -66,4 +77,5 @@ public class DWebViewManager
             javaClass.CallStatic(methodName, (new object[] { activity }).Concat(parameters).ToArray());
         }
     }
+#endif
 }
