@@ -1,0 +1,19 @@
+{
+    "name": "com.diogocake.dwebview",
+    "version": "0.0.1",
+    "displayName": "DWebView",
+    "description": "Open native webviews through a simple API.",
+    "documentationUrl": "https://github.com/DiogoMartins/DWebView",
+    "changelogUrl": "https://github.com/DiogoMartins/DWebView",
+    "licensesUrl": "https://github.com/DiogoMartins/DWebView",
+    "keywords": [
+        "DWebView",
+        "WebView",
+        "Android",
+        "Native"
+    ],
+    "author": {
+        "name": "Diogo Martins",
+        "url": "https://github.com/DiogoMartins"
+    }
+}
